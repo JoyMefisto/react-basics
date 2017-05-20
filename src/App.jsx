@@ -32,4 +32,12 @@ function App(props) {
     );
 }
 
+App.propTypes = {
+    title: React.PropTypes.string.isRequired // обязательное свойство с типом string
+};
+// Дефолтное название при котором можно не указывать обязательность свойства(то что выше)
+App.defaultProps = {
+    title: 'React Todo'
+}
+
 ReactDOM.render(<App title="React Todo" />, document.getElementById('root'));
