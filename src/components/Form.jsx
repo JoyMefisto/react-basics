@@ -38,7 +38,6 @@ class Form extends React.Component {
                        placeholder="Что нужно сделать?"
                        onChange={this.handleChange}
                 />
-
                 <Button type="submit">Добавить</Button>
             </form>
         );
