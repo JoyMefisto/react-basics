@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 
 import todos from './todos';
 import Header from './components/Header';
@@ -21,8 +22,8 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/api/todos')
-            .then(response => response.json())
+        axios.get('/api/todos')
+            .then(response => response.data)
             .then(todos => this.setState({ todos: todos }))
             .catch(error => console.error(error));
 
