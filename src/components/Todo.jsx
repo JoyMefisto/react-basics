@@ -24,7 +24,7 @@ class Todo extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        let title = this.refs.title.value;
+        const title = this.refs.title.value;
         this.props.onEdit(this.props.id, title);
         this.setState({ editing: false });
     }
@@ -33,7 +33,7 @@ class Todo extends React.Component {
         return (
             <div className={`todo${this.props.completed ? ' completed' : '' }`}>
                 <Checkbox checked={this.props.completed} onChange={() =>
-                    this.props.onStatusChange(this.props .id) } />
+                    this.props.onStatusChange(this.props.id) } />
                 <span className="todo-title">{this.props.title}</span>
 
                 <Button className="edit icon" icon="edit" onClick={ () =>

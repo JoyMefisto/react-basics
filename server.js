@@ -27,7 +27,7 @@ app.get('/api/todos', (req, res) => {
 });
 
 app.post('/api/todos', (req, res) => {
-    const todo = {
+    let todo = {
         id: nextId++,
         title: req.body.title,
         completed: false

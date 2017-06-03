@@ -15,7 +15,7 @@ class App extends React.Component {
             todos: []
         };
 
-        this.handleStatusChange = this.handleStatusChange.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
@@ -25,55 +25,67 @@ class App extends React.Component {
         axios.get('/api/todos')
             .then(response => response.data)
             .then(todos => this.setState({ todos: todos }))
-            .catch(error => console.error(error));
+            .catch(this.handleError);
 
     }
 
-    handleStatusChange(id) {
-        let todos = this.state.todos.map( todo => {
-            if(todo.id === id) {
-                todo.completed = !todo.completed;
-            }
+    handleToggle(id) {
+        axios.patch(`/api/todos/${id}`)
+            .then( response => {
+                const todos = this.state.todos.map( todo => {
+                    if(todo.id === id) {
+                        todo = response.data;
+                    }
 
-            return todo;
-        });
+                    return todo;
+                });
 
-        this.setState({ todos: todos });
+                this.setState({ todos: todos });
+            })
+            .catch(this.handleError);
+
     }
 
     handleDelete(id) {
-        let todos = this.state.todos.filter(todo => todo.id !== id);
+        axios.delete(`/api/todos/${id}`)
+            .then(() => {
+                const todos = this.state.todos.filter(todo => todo.id !== id);
 
-        this.setState({ todos: todos});
-    }
-
-    nextId() {
-        this._nextId = this._nextId || 4;
-        return this._nextId++;
+                this.setState({ todos });
+            })
+            .catch(this.handleError);
     }
 
     handleAdd(title) {
-        let todo = {
-            id: this.nextId(),
-            title,
-            completed: false
-        };
+        axios.post('/api/todos', { title })
+            .then(response => response.data)
+            .then(todo => {
+                let todos = [ ...this.state.todos, todo];
+                this.setState({ todos });
+            })
+            .catch(this.handleError);
 
-        let todos = [ ...this.state.todos, todo];
+    }
 
-        this.setState({ todos });
+    handleError(error) {
+        console.error(error);
     }
 
     handleEdit(id, title) {
-        let todos = this.state.todos.map( todo => {
-            if(todo.id === id){
-                todo.title = title;
-            }
+        axios.put(`/api/todos/${id}`, { title })
+            .then( response => {
+                let todos = this.state.todos.map( todo => {
+                    if(todo.id === id){
+                        todo = response.data;
+                    }
 
-            return todo;
-        });
+                    return todo;
+                });
 
-        this.setState({ todos });
+                this.setState({ todos });
+            })
+            .catch(this.handleError);
+
 
     }
 
@@ -88,7 +100,7 @@ class App extends React.Component {
                               id={todo.id}
                               title={todo.title}
                               completed={todo.completed}
-                              onStatusChange={this.handleStatusChange}
+                              onStatusChange={this.handleToggle}
                               onDelete={this.handleDelete}
                               onEdit={this.handleEdit}
                         />
