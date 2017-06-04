@@ -213,3 +213,31 @@ header h1 {
 .todo-form button {
     margin-left: 10px;
 }
+
+/* Animations */
+.slide-enter {
+    transform: translateX(-100%);
+}
+
+.slide-enter.slide-enter-active {
+    transform: translateX(0%);
+    transition: transform .5s;
+}
+
+.slide-leave {
+    transform: translateX(0);
+}
+
+.slide-leave.slide-leave-active {
+    transition: transform .5s;
+    transform: translateX(100%);
+}
+
+/*.slide-appear {*/
+    /*opacity: 0.01;*/
+/*}*/
+
+/*.slide-appear.slide-appear-active {*/
+    /*opacity: 1;*/
+    /*transition: all 5s;*/
+/*}*/

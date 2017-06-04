@@ -101,6 +101,7 @@ class App extends React.Component {
                     transitionName="slide"
                     transitionEnterTimeout={500}
                     transitionLeaveTimeout={500}>
+
                     {this.state.todos.map( todo =>
                         <Todo key={todo.id}
                               id={todo.id}
